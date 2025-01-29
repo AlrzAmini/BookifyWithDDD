@@ -11,43 +11,19 @@ public enum Amenity
 
     // Utilities
     WiFi,
-    CableTV,
-    ElectricityBackup,
     WaterSupply,
-    GarbageDisposal,
 
     // Kitchen & Appliances
     Dishwasher,
     Microwave,
-    Refrigerator,
-    WasherDryer,
-    Oven,
 
     // Fitness & Recreation
     Gym,
     SwimmingPool,
-    Sauna,
-    YogaStudio,
-    Playground,
-    BasketballCourt,
 
     // Outdoor Features
     Balcony,
     Terrace,
-    Garden,
-    BarbecueArea,
-    WalkingPath,
-
-    // Security Features
-    CCTV,
-    GatedCommunity,
-    Intercom,
-    FireAlarm,
-    SmokeDetectors,
-
-    // Accessibility
-    WheelchairAccess,
-    RampAccess,
 
     // Pet-Friendly
     PetFriendly,
@@ -55,15 +31,9 @@ public enum Amenity
 
     // Business & Convenience
     BusinessCenter,
-    ConferenceRoom,
-    Concierge,
-    PackageLocker,
 
     // Social & Entertainment
     PartyRoom,
-    GameRoom,
-    TheaterRoom,
-    Lounge,
 
     // Storage
     StorageUnits,
@@ -71,6 +41,4 @@ public enum Amenity
 
     // Luxury Amenities
     Spa,
-    RooftopDeck,
-    WineCellar
 }
