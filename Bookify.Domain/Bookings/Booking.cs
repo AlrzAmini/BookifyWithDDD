@@ -79,7 +79,7 @@ public sealed class Booking : Entity
         return booking;
     }
 
-    public void Confirm()
+    public Result Confirm()
     {
         if (Status != BookingStatus.Reserved)
         {
@@ -90,9 +90,11 @@ public sealed class Booking : Entity
         ConfirmedAt = DateTime.Now;
 
         RaiseDomainEvents(new BookingConfirmedDomainEvent(Id));
+
+        return Result.Success();
     }
 
-    public void Reject()
+    public Result Reject()
     {
         if (Status != BookingStatus.Reserved)
         {
@@ -108,9 +110,11 @@ public sealed class Booking : Entity
         RejectedAt = DateTime.Now;
 
         RaiseDomainEvents(new BookingRejectedDomainEvent(Id));
+
+        return Result.Success();
     }
 
-    public void Cancel()
+    public Result Cancel()
     {
         if (Status != BookingStatus.Confirmed)
         {
@@ -133,9 +137,11 @@ public sealed class Booking : Entity
         CancelledAt = DateTime.Now;
 
         RaiseDomainEvents(new BookingCancelledDomainEvent(Id));
+
+        return Result.Success();
     }
 
-    public void Complete()
+    public Result Complete()
     {
         if (Status != BookingStatus.Confirmed)
         {
@@ -146,5 +152,7 @@ public sealed class Booking : Entity
         CompletedAt = DateTime.Now;
 
         RaiseDomainEvents(new BookingCompletedDomainEvent(Id));
+
+        return Result.Success();
     }
 }
