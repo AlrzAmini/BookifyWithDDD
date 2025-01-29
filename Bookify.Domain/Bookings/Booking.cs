@@ -36,6 +36,14 @@ public sealed class Booking : Entity
 
     public BookingStatus Status { get; private set; }
 
+    public DateTime? ConfirmedAt { get; set; }
+
+    public DateTime? RejectedAt { get; set; }
+
+    public DateTime? CompletedAt { get; set; }
+
+    public DateTime? CancelledAt { get; set; }
+
     public static Booking Create(
         Guid apartmentId,
         Guid userId,
@@ -51,7 +59,7 @@ public sealed class Booking : Entity
             dateRange,
             priceForPeriod,
             amenitiesUpCharge,
-            BookingStatus.Pending); // Assuming default status is Pending
+            BookingStatus.Pending);
 
         booking.RaiseDomainEvents(new BookingCreatedDomainEvent(booking.Id));
 
