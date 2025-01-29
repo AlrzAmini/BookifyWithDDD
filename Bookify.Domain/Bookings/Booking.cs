@@ -79,36 +79,72 @@ public sealed class Booking : Entity
         return booking;
     }
 
-    //public void ConfirmBooking()
-    //{
-    //    if (Status != BookingStatus.Pending)
-    //    {
-    //        throw new InvalidOperationException("Only pending bookings can be confirmed.");
-    //    }
+    public void Confirm()
+    {
+        if (Status != BookingStatus.Reserved)
+        {
+            throw new InvalidOperationException("only reserved bookings can be confirmed.");
+        }
 
-    //    Status = BookingStatus.Confirmed;
-    //    RaiseDomainEvents(new BookingConfirmedDomainEvent(Id));
-    //}
+        Status = BookingStatus.Confirmed;
+        ConfirmedAt = DateTime.Now;
 
-    //public void CancelBooking()
-    //{
-    //    if (Status == BookingStatus.Canceled)
-    //    {
-    //        throw new InvalidOperationException("The booking is already canceled.");
-    //    }
+        RaiseDomainEvents(new BookingConfirmedDomainEvent(Id));
+    }
 
-    //    Status = BookingStatus.Canceled;
-    //    RaiseDomainEvents(new BookingCanceledDomainEvent(Id));
-    //}
+    public void Reject()
+    {
+        if (Status != BookingStatus.Reserved)
+        {
+            throw new InvalidOperationException("only reserved bookings can be reject.");
+        }
 
-    //public void UpdateAmenitiesUpCharge(Money newUpCharge)
-    //{
-    //    if (newUpCharge == null || newUpCharge.Amount < 0)
-    //    {
-    //        throw new ArgumentException("Amenities upcharge must be a valid non-negative value.");
-    //    }
+        if (Status == BookingStatus.Rejected)
+        {
+            throw new InvalidOperationException("bookings is already rejected.");
+        }
 
-    //    AmenitiesUpCharge = newUpCharge;
-    //    RaiseDomainEvents(new BookingAmenitiesUpdatedDomainEvent(Id, newUpCharge));
-    //}
+        Status = BookingStatus.Rejected;
+        RejectedAt = DateTime.Now;
+
+        RaiseDomainEvents(new BookingRejectedDomainEvent(Id));
+    }
+
+    public void Cancel()
+    {
+        if (Status != BookingStatus.Confirmed)
+        {
+            throw new InvalidOperationException("only confirmed bookings can be Cancelled.");
+        }
+
+        if (Status == BookingStatus.Cancelled)
+        {
+            throw new InvalidOperationException("bookings is already cancelled.");
+        }
+
+        var currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+        if (currentDate > DateRange.Start)
+        {
+            throw new InvalidOperationException("bookings is already started.");
+        }
+
+        Status = BookingStatus.Cancelled;
+        CancelledAt = DateTime.Now;
+
+        RaiseDomainEvents(new BookingCancelledDomainEvent(Id));
+    }
+
+    public void Complete()
+    {
+        if (Status != BookingStatus.Confirmed)
+        {
+            throw new InvalidOperationException("only confirmed bookings can be completed.");
+        }
+
+        Status = BookingStatus.Completed;
+        CompletedAt = DateTime.Now;
+
+        RaiseDomainEvents(new BookingCompletedDomainEvent(Id));
+    }
 }
