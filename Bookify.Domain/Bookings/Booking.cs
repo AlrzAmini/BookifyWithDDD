@@ -83,7 +83,7 @@ public sealed class Booking : Entity
     {
         if (Status != BookingStatus.Reserved)
         {
-            throw new InvalidOperationException("only reserved bookings can be confirmed.");
+            return Result.Failure(BookingErrors.InvalidStatusForConfirmation);
         }
 
         Status = BookingStatus.Confirmed;
@@ -98,12 +98,12 @@ public sealed class Booking : Entity
     {
         if (Status != BookingStatus.Reserved)
         {
-            throw new InvalidOperationException("only reserved bookings can be reject.");
+            return Result.Failure(BookingErrors.InvalidStatusForRejection);
         }
 
         if (Status == BookingStatus.Rejected)
         {
-            throw new InvalidOperationException("bookings is already rejected.");
+            return Result.Failure(BookingErrors.AlreadyRejected);
         }
 
         Status = BookingStatus.Rejected;
@@ -118,19 +118,19 @@ public sealed class Booking : Entity
     {
         if (Status != BookingStatus.Confirmed)
         {
-            throw new InvalidOperationException("only confirmed bookings can be Cancelled.");
+            return Result.Failure(BookingErrors.InvalidStatusForCancellation);
         }
 
         if (Status == BookingStatus.Cancelled)
         {
-            throw new InvalidOperationException("bookings is already cancelled.");
+            return Result.Failure(BookingErrors.AlreadyCancelled);
         }
 
         var currentDate = DateOnly.FromDateTime(DateTime.Now);
 
         if (currentDate > DateRange.Start)
         {
-            throw new InvalidOperationException("bookings is already started.");
+            return Result.Failure(BookingErrors.BookingAlreadyStarted);
         }
 
         Status = BookingStatus.Cancelled;
@@ -145,7 +145,7 @@ public sealed class Booking : Entity
     {
         if (Status != BookingStatus.Confirmed)
         {
-            throw new InvalidOperationException("only confirmed bookings can be completed.");
+            return Result.Failure(BookingErrors.InvalidStatusForCompletion);
         }
 
         Status = BookingStatus.Completed;
