@@ -1,7 +1,8 @@
-﻿namespace Bookify.Domain.Apartments;
+﻿namespace Bookify.Domain.Shared;
 
 public record Currency
 {
+    internal static readonly Currency None = new("");
     private static readonly Currency Rial = new("IRR");
     private static readonly Currency Usd = new("Usd");
     private static readonly Currency Eur = new("Eur");
@@ -10,18 +11,20 @@ public record Currency
 
     public string Code { get; init; }
 
-    public Currency FromCode(string code)
-    {
-        return All().FirstOrDefault(c => c.Code == code) ?? Rial;
-    }
-
     public IReadOnlyCollection<Currency> All()
     {
-        return new List<Currency>()
+        return new List<Currency>
         {
             Rial,
             Usd,
             Eur,
         };
     }
+
+    public Currency FromCode(string code)
+    {
+        return All().FirstOrDefault(c => c.Code == code) ?? Rial;
+    }
+
+    
 }
