@@ -1,4 +1,4 @@
-﻿namespace Bookify.Domain.Shared;
+﻿namespace Bookify.Domain.Users;
 
 using Bookify.Domain.Abstractions;
 using System.Text.RegularExpressions;
