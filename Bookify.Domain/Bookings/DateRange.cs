@@ -2,9 +2,10 @@
 
 public record DateRange
 {
-    private DateRange()
+    private DateRange(DateOnly start, DateOnly end)
     {
-
+        Start = start;
+        End = end;
     }
 
     public DateOnly Start { get; init; }
@@ -20,10 +21,6 @@ public record DateRange
             throw new ApplicationException("end date precedes start date");
         }
 
-        return new DateRange
-        {
-            Start = start,
-            End = end
-        };
+        return new DateRange(start, end);
     }
 }
