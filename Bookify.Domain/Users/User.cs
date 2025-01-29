@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bookify.Domain.Abstractions;
+using Bookify.Domain.Shared;
 using Bookify.Domain.Users.Events;
 
 namespace Bookify.Domain.Users
@@ -27,13 +28,13 @@ namespace Bookify.Domain.Users
 
         public Email Email { get; private set; }
 
-        public static User Create(string firstName, string lastName, Email email)
+        public static Result<User> Create(string firstName, string lastName, Email email)
         {
             var user = new User(Guid.CreateVersion7(), DateTime.Now, firstName, lastName, email);
 
             user.RaiseDomainEvents(new UserCreatedDomainEvent(user.Id));
 
-            return user;
+            return Result.Success(user);
         }
     }
 }

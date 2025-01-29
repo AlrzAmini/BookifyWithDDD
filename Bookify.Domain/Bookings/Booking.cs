@@ -53,7 +53,7 @@ public sealed class Booking : Entity
 
     public DateTime? CancelledAt { get; private set; }
 
-    public static Booking Reserve(
+    public static Result<Booking> Reserve(
         Apartment apartment,
         Guid userId,
         DateRange dateRange,
@@ -76,7 +76,7 @@ public sealed class Booking : Entity
 
         booking.RaiseDomainEvents(new BookingReservedDomainEvent(booking.Id));
 
-        return booking;
+        return Result.Success(booking);
     }
 
     public Result Confirm()

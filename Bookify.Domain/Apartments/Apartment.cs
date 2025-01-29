@@ -1,4 +1,5 @@
 ﻿using Bookify.Domain.Abstractions;
+using Bookify.Domain.Apartments.Events;
 using Bookify.Domain.Shared;
 
 namespace Bookify.Domain.Apartments;
@@ -36,7 +37,7 @@ public sealed class Apartment : Entity
 
     public List<Amenity> Amenities { get; private set; }
 
-    public static Apartment Create(
+    public static Result<Apartment> Create(
         string name,
         string description,
         Address address,
@@ -44,7 +45,7 @@ public sealed class Apartment : Entity
         List<Rule>? rules = null,
         List<Amenity>? amenities = null)
     {
-        return new Apartment(
+        var apartment = new Apartment(
             Guid.CreateVersion7(),
             DateTime.Now,
             name,
@@ -54,6 +55,10 @@ public sealed class Apartment : Entity
             rules ?? [],
             amenities ?? []
         );
+
+        apartment.RaiseDomainEvents(new ApartmentCreatedDomainEvent(apartment.Id));
+
+        return Result.Success(apartment);
     }
 }
 
