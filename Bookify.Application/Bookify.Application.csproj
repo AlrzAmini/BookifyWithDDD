@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Messaging\" />
+    <Folder Include="Features\Apartments\" />
+    <Folder Include="Features\Reviews\" />
+    <Folder Include="Features\Users\" />
   </ItemGroup>
 
 </Project>
