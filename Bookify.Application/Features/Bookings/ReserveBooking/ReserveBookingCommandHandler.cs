@@ -8,7 +8,7 @@ using Bookify.Domain.Users;
 
 namespace Bookify.Application.Features.Bookings.ReserveBooking;
 
-internal class ReserveBookingCommandHandler(
+internal sealed class ReserveBookingCommandHandler(
     IBookingRepository bookingRepository,
     IApartmentRepository apartmentRepository,
     IUserRepository userRepository,
