@@ -26,9 +26,15 @@ internal sealed class BookingReservedDomainEventHandler(IBookingRepository booki
             return;
         }
 
+        var apartment = await apartmentRepository.GetById(booking.ApartmentId, cancellationToken);
+        if (apartment is null)
+        {
+            return;
+        }
+
         await emailService.Send(
             new EmailDto(user.Email,
-                "Booking reserved!",
+                $"Booking reserved for {apartment.Name}!",
                 "You have 10 minutes to confirm your booking."),
             cancellationToken);
     }
