@@ -1,4 +1,5 @@
-﻿using Bookify.Application.Abstractions.Messaging;
+﻿using Bookify.Application.Abstractions.Clock;
+using Bookify.Application.Abstractions.Messaging;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
@@ -12,6 +13,7 @@ internal class ReserveBookingCommandHandler(
     IApartmentRepository apartmentRepository,
     IUserRepository userRepository,
     IUnitOfWork unitOfWork,
+    IDateTimeProvider dateTimeProvider,
     PricingService pricingService)
     : ICommandHandler<ReserveBookingCommand, Guid>
 {
@@ -39,6 +41,7 @@ internal class ReserveBookingCommandHandler(
 
         var bookingResult = Booking.Reserve(apartment,
             user.Id,
+            dateTimeProvider.DateNow,
             dateRange,
             Money.Zero(),
             pricingService);

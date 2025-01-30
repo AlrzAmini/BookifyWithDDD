@@ -56,6 +56,7 @@ public sealed class Booking : Entity
     public static Result<Booking> Reserve(
         Apartment apartment,
         Guid userId,
+        DateTime dateNow,
         DateRange dateRange,
         Money discount,
         PricingService pricingService)
@@ -64,7 +65,7 @@ public sealed class Booking : Entity
 
         var booking = new Booking(
             Guid.CreateVersion7(),
-            DateTime.Now,
+            dateNow,
             apartment.Id,
             userId,
             dateRange,
