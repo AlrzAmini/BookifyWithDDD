@@ -1,6 +1,5 @@
 ﻿using Bookify.Application.Abstractions.Messaging;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 
 namespace Bookify.Application.Abstractions.Behaviors;
