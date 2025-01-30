@@ -10,24 +10,27 @@ namespace Bookify.Domain.Bookings
     public static class BookingErrors
     {
         public static readonly Error InvalidStatusForConfirmation =
-            new("InvalidStatusForConfirmation", "Only reserved bookings can be confirmed.");
+            new(nameof(InvalidStatusForConfirmation), "Only reserved bookings can be confirmed.");
 
         public static readonly Error InvalidStatusForRejection =
-            new("InvalidStatusForRejection", "Only reserved bookings can be rejected.");
+            new(nameof(InvalidStatusForRejection), "Only reserved bookings can be rejected.");
 
         public static readonly Error AlreadyRejected =
-            new("AlreadyRejected", "Booking is already rejected.");
+            new(nameof(AlreadyRejected), "Booking is already rejected.");
 
         public static readonly Error InvalidStatusForCancellation =
-            new("InvalidStatusForCancellation", "Only confirmed bookings can be cancelled.");
+            new(nameof(InvalidStatusForCancellation), "Only confirmed bookings can be cancelled.");
 
         public static readonly Error AlreadyCancelled =
-            new("AlreadyCancelled", "Booking is already cancelled.");
+            new(nameof(AlreadyCancelled), "Booking is already cancelled.");
 
         public static readonly Error BookingAlreadyStarted =
-            new("BookingAlreadyStarted", "The booking has already started and cannot be cancelled.");
+            new(nameof(BookingAlreadyStarted), "The booking has already started and cannot be cancelled.");
 
         public static readonly Error InvalidStatusForCompletion =
-            new("InvalidStatusForCompletion", "Only confirmed bookings can be completed.");
+            new(nameof(InvalidStatusForCompletion), "Only confirmed bookings can be completed.");
+
+        public static readonly Error Overlap =
+            new(nameof(Overlap), "Booking is overlap with another booking.");
     }
 }
