@@ -1,0 +1,56 @@
+﻿using Bookify.Application.Abstractions.Messaging;
+using Bookify.Domain.Abstractions;
+using Bookify.Domain.Apartments;
+using Bookify.Domain.Bookings;
+using Bookify.Domain.Shared;
+using Bookify.Domain.Users;
+
+namespace Bookify.Application.Features.Bookings.ReserveBooking;
+
+internal class ReserveBookingCommandHandler(
+    IBookingRepository bookingRepository,
+    IApartmentRepository apartmentRepository,
+    IUserRepository userRepository,
+    IUnitOfWork unitOfWork,
+    PricingService pricingService)
+    : ICommandHandler<ReserveBookingCommand, Guid>
+{
+    public async Task<Result<Guid>> Handle(ReserveBookingCommand request, CancellationToken cancellationToken)
+    {
+        var user = await userRepository.GetById(request.UserId, cancellationToken);
+        if (user is null)
+        {
+            return Result.Failure<Guid>(UserErrors.NotFound);
+        }
+
+        var apartment = await apartmentRepository.GetById(request.UserId, cancellationToken);
+        if (apartment is null)
+        {
+            return Result.Failure<Guid>(ApartmentErrors.NotFound);
+        }
+
+        var dateRange = DateRange.Create(request.StartDate, request.EndDate);
+
+        var isOverlapping = await bookingRepository.IsOverlapping(apartment, dateRange, cancellationToken);
+        if (isOverlapping)
+        {
+            return Result.Failure<Guid>(BookingErrors.Overlap);
+        }
+
+        var bookingResult = Booking.Reserve(apartment,
+            user.Id,
+            dateRange,
+            Money.Zero(),
+            pricingService);
+        if (bookingResult.IsFailure)
+        {
+            return Result.Failure<Guid>(bookingResult.Error);
+        }
+
+        var bookingId = await bookingRepository.Add(bookingResult.Value, cancellationToken);
+
+        await unitOfWork.SaveChanges(cancellationToken);
+
+        return Result.Success(bookingId);
+    }
+}
