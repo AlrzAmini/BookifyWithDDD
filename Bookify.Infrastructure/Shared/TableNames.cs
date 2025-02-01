@@ -8,9 +8,9 @@ namespace Bookify.Infrastructure.Shared
 {
     public static class TableNames
     {
-        public static string Users = nameof(Users);
-        public static string Apartments = nameof(Apartments);
-        public static string Bookings = nameof(Bookings);
-        public static string Reviews = nameof(Reviews);
+        public static string Users = "users";
+        public static string Apartments = "apartments";
+        public static string Bookings = "bookings";
+        public static string Reviews = "reviews";
     }
 }

@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <Folder Include="Clock\" />
+    <Folder Include="Features\Bookings\" />
+    <Folder Include="Features\Users\" />
   </ItemGroup>
 
 </Project>

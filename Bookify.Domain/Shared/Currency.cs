@@ -11,7 +11,7 @@ public record Currency
 
     public string Code { get; init; }
 
-    public IReadOnlyCollection<Currency> All()
+    public static IReadOnlyCollection<Currency> All()
     {
         return new List<Currency>
         {
@@ -21,7 +21,7 @@ public record Currency
         };
     }
 
-    public Currency FromCode(string code)
+    public static Currency FromCode(string code)
     {
         return All().FirstOrDefault(c => c.Code == code) ?? Rial;
     }
