@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bookify.Application.Abstractions.Clock;
+using Bookify.Application.Abstractions.Database;
 using Bookify.Application.Abstractions.Email;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
@@ -32,7 +33,7 @@ namespace Bookify.Infrastructure
 
             var connectionString = configuration.GetConnectionString("Database")
                                    ?? throw new ArgumentNullException(nameof(configuration));
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
             });

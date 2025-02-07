@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
   </ItemGroup>
 
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\Messaging\" />
-    <Folder Include="Features\Apartments\" />
+    <Folder Include="Features\Apartments\Search\" />
     <Folder Include="Features\Reviews\" />
     <Folder Include="Features\Users\" />
   </ItemGroup>

@@ -54,5 +54,7 @@ namespace Bookify.Domain.Abstractions
         public T Value => IsSuccess
             ? _value!
             : throw new InvalidOperationException("the value of failure result can not be accessed.");
+
+        public static implicit operator Result<T>(T? value) => Create(value);
     }
 }

@@ -3,15 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bookify.Application.Abstractions.Database;
 using Bookify.Application.Exceptions;
 using Bookify.Domain.Abstractions;
+using Bookify.Domain.Apartments;
+using Bookify.Domain.Bookings;
+using Bookify.Domain.Reviews;
+using Bookify.Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookify.Infrastructure.Database
 {
-    public sealed class ApplicationDbContext(DbContextOptions options, IPublisher publisher) : DbContext(options), IUnitOfWork
+    public sealed class ApplicationDbContext(DbContextOptions options, IPublisher publisher) 
+        : DbContext(options),
+            IUnitOfWork,
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
+            IApplicationDbContext
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
     {
+        public DbSet<Apartment> Apartments { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
